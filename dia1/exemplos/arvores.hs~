@@ -1,0 +1,28 @@
+module Main where
+
+data Tree a = Leaf | Node (Tree a) a (Tree a)
+
+abpInsere (Node left key right) value =
+	if value < key
+		then Node (abpInsere left value) key right
+	else Node left key (abpInsere right value)
+abpInsere Leaf value = Node Leaf value Leaf
+
+abpImprime Leaf = putStr ""
+abpImprime (Node left key right) = do
+	abpImprime left
+	print key
+	abpImprime right
+	
+main = do
+	let a = abpInsere Leaf 3
+	let b = abpInsere a 2
+	let c = abpInsere b 1
+	let d = abpInsere c 4
+
+	print "C:"
+	abpImprime c
+	
+	print "D:"
+	abpImprime d
+	

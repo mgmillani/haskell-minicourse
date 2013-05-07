@@ -18,19 +18,23 @@
   linkcolor=blue
 }
 
+\definecolor{darkGreen}{rgb}{0,0.6,0}
+
 \lstset{
 	extendedchars=true,
 	inputencoding=utf8,
 	basicstyle=\small,
 	keywordstyle=\color{red}\bfseries,
-	%identifierstyle=\color{blue},
+	identifierstyle=\color{darkGreen},
 	commentstyle=\color{gray}\textit,
 	stringstyle=\color{magenta},
 	showstringspaces=false,
-	%numbers=left,         % Números na margem da esquerda
-	%numberstyle=\tiny,    % Números pequenos
-	%stepnumber=1,         % De 1 em 1
-	%numbersep=5pt,         % Separados por 5pt
+	tabsize=1,
+	language=Haskell,
+	numbers=left,         % Números na margem da esquerda
+	numberstyle=\tiny,    % Números pequenos
+	stepnumber=1,         % De 1 em 1
+	numbersep=5pt         % Separados por 5pt
 }
 
 \lstset
@@ -315,7 +319,7 @@ Prelude> let b = a 5
 	
 	\section{IO}
 	
-		\subsection{Output}
+		%\subsection{Output}
 		\begin{frame}[fragile]{Funções de Saída}
 		 \begin{itemize}
 		  \item Não são funções de fato
@@ -343,7 +347,7 @@ Prelude> print 42
 		 \end{block}
 		\end{frame}
 		
-		\subsection{Input}
+		%\subsection{Input}
 		\begin{frame}[fragile]{Funções de Entrada}
 
 		 \begin{block}{Definição}
@@ -407,6 +411,48 @@ fatorial n = n * fatorial (n-1)
 		  \end{lstlisting}
 		 \end{block}
 		\end{frame}
+		
+		\subsection{Módulos}
+			\begin{frame}[fragile]{Módulos}
+			 \begin{itemize}
+			  \item Servem para organizar o código
+			  \item Permitem reúso de código
+			  \item Fáceis de se usar
+			 \end{itemize}
+			\end{frame}
+			
+			\begin{frame}[fragile]{Definição}
+			 \begin{block}{Exemplo}
+			  \lstinputlisting{exemplos/modules/Arvore.hs}
+			 \end{block}
+			\end{frame}
+			
+			\begin{frame}[fragile]{Import}
+			 \begin{block}{Variações}
+			  \begin{description}
+			   \item [import Module] traz todas as funções de Module
+					\begin{itemize}
+					 \item x, y, z, Module.x, Module.y, Module.z
+					\end{itemize}
+				 \item [import Module (x,y)] traz somente x e y
+				 \item [import Module as Foo] trata Module como Foo
+					\begin{itemize}
+					 \item x, y, z, Foo.x, Foo.y, Foo.z
+					\end{itemize}
+
+			   \item [import qualified Module] requer o nome do módulo prefixado
+					\begin{itemize}
+					 \item Module.x, Module.y, Module.z
+					\end{itemize}
+			  \end{description}			  
+			 \end{block}
+			\end{frame}
+			
+			\begin{frame}[fragile]{Import}
+			 \begin{block}{Exemplo}
+			  \lstinputlisting{exemplos/src/arvore.hs}
+			 \end{block}
+			\end{frame}
 			
 \section{Referências}
 \begin{frame}{Referências}
