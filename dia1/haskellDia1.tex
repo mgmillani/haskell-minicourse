@@ -1,0 +1,419 @@
+\documentclass{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+\usepackage{listingsutf8}
+\usepackage{color}
+\usepackage{theoremref}
+\usepackage{verbatim,amssymb,latexsym,amsmath,mathrsfs}
+
+\usecolortheme{rose}
+\usetheme{Hannover}
+
+\hypersetup
+{
+  colorlinks=true,
+  urlcolor=blue,
+  citecolor=blue,
+  linkcolor=blue
+}
+
+\lstset{
+	extendedchars=true,
+	inputencoding=utf8,
+	basicstyle=\small,
+	keywordstyle=\color{red}\bfseries,
+	%identifierstyle=\color{blue},
+	commentstyle=\color{gray}\textit,
+	stringstyle=\color{magenta},
+	showstringspaces=false,
+	%numbers=left,         % Números na margem da esquerda
+	%numberstyle=\tiny,    % Números pequenos
+	%stepnumber=1,         % De 1 em 1
+	%numbersep=5pt,         % Separados por 5pt
+}
+
+\lstset
+{
+	literate={ê}{{\^e}}1 {ç}{{\c{c}}}1 {ã}{{\~a}}1 {â}{{\^a}}1 {õ}{{\~o}}1 {í}{{\'i}}1 {é}{{\'e}}1 {á}{{\'a}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+}
+
+\title{Curso de \LaTeX - SEMAC 2012/2}
+\author[M. Millani]{Marcelo Garlet Millani}
+\institute[II/UFRGS]{Universidade Federal do Rio Grande do Sul \\ Instituto de Informática \\ Grupo PET Computação}
+
+\begin{document}
+
+	\begin{frame}
+		\maketitle
+	\end{frame}
+
+\section{Sobre a Linguagem}
+	\begin{frame}{O Que É}
+		\begin{itemize}
+		 \item Linguagem puramente funcional (não permite efeitos colaterais)
+		 \item Possui um sistema de mônadas para isolar partes impuras do código
+		 \item Usa avaliação preguiçosa (só calcula uma expressão se ela for necessária)
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}{História}
+	 
+	 \begin{itemize}
+	  \item Proposta na conferência FPCA '87 (Functional Programming Languages and Computer Architecture)
+	  \item Havia diversas linguagens funcionais não-estritas, todas similares
+	  \item Foi criada com o objetivo de propor uma linguagem funcional padrão
+	  \item Nome em homenagem a Haskell Curry
+	 \end{itemize}
+	\end{frame}
+	
+	\begin{frame}{História}
+	 A linguagem proposta deveria satisfazer o seguinte:
+	 \begin{itemize}
+	  \item Deveria ser adequada para o ensino, pesquisa e aplicações (incluindo sistemas grandes)
+	  \item Deveria ser descrita completamente através da publicação de sintaxe e semânticas formais
+	  \item Deveria estar disponível livremente, de forma que qualquer um pudesse implementar e distribuir a linguagem
+	  \item Deveria ser baseada em ideias amplamente aceitas
+	  \item Deveria reduzir diversidade desnecessária em linguagens funcionais
+	 \end{itemize}
+	\end{frame}
+	
+\section{Ferramentas}
+
+	\begin{frame}{Interpretadores e Compiladores}
+	 
+	 \begin{description}
+	  \item [Hugs] Apenas um interpretador. É mais rápido que o interpretador do GHC;
+			\begin{itemize}
+			 \item \url{http://haskell.org/hugs}
+			 \item Pacote hugs no linux
+			\end{itemize}
+	  \item [GHC] Compilador e interpretador. É o mais usado dos três;
+			\begin{itemize}
+			 \item \url{http://haskell.org/ghc}
+			 \item Pacote ghc no linux
+			\end{itemize}
+	  \item [NHC] Apenas um compilador. Arquivos produzidos geralmente melhores que o do GHC.
+			\begin{itemize}
+			 \item 
+			\end{itemize}
+	 \end{description}	 
+	\end{frame}
+	
+\section{Interpretador}
+
+	\begin{frame}{Base}
+	 	 \begin{itemize}
+	 	  \item Declarações começam com \textit{let}
+	 	 \end{itemize}
+	 	 \begin{block}{Sintaxe}
+	 	  let <identificador> {[}variáveis\dots{]} = <expressão>
+	 	 \end{block}
+	 	 \begin{block}{Exemplos}
+	 	  \begin{itemize}
+	 	   \item let a = 12
+	 	   \item let soma x y = x+y
+	 	  \end{itemize}
+	 	 \end{block}
+	\end{frame}
+	
+	\section{Operações}
+	\begin{frame}{Operadores}
+	 \begin{table}[h]
+	  \centering
+	  \begin{tabular}{c | c}
+			operador & operação\\
+			\hline
+			+ & soma \\
+			- & subtração \\
+			* & multiplicação\\
+			/ & divisão (float)\\
+			++ & concatenação de listas\\
+			: & inserção em uma lista\\
+			!! & acesso a uma posição da lista\\
+			\textasciicircum & potenciação\\
+	  \end{tabular}
+	 \end{table}	 
+	\end{frame}
+	
+	\begin{frame}{Operadores Lógicos}
+	 
+	 \begin{table}[h]
+	  \begin{tabular}{c | c}
+	   operador & operação\\
+	   \hline
+	   \&\& & $\land$ \\
+	   || & $\lor$ \\
+	   not & $\lnot$ \\
+	  \end{tabular}
+	 \end{table}
+	 
+	 \begin{table}[h]
+	  \begin{tabular}{c | c}
+	   operador & operação\\
+	   \hline
+	   == & igual \\
+	   /= & diferente \\
+	   > & maior que \\
+	   >= & maior ou igual \\
+	   < & menor que \\
+	   <= & menor ou igual \\
+	  \end{tabular}
+	 \end{table} 
+	\end{frame}
+	
+	\section{Pattern Matching}
+	
+		\begin{frame}[fragile]{Pattern Matching}	 
+		 \begin{block}{Exemplo}
+		  \begin{lstlisting}
+Prelude> let a = (\(x,y) -> x+y)
+Prelude> let b = (\(x:y:_) -> x*y)
+Prelude> let (p,k) = (\x y -> (x,y)) 3 4
+		  \end{lstlisting}
+		 \end{block}
+		\end{frame}
+	
+	\section{Tipos de Dados}
+	
+		\begin{frame}[fragile]{Declaração}
+			\begin{block}{Listas}
+		\begin{lstlisting}
+Prelude> [1,2,3,4]
+Prelude> []
+Prelude> [2,4..16]
+Prelude> [1,3..] !! 5
+		 \end{lstlisting}
+		\end{block}
+		
+		\begin{block}{Tuplas}
+		\begin{lstlisting}
+Prelude> ( 1 )
+Prelude> (1,2,3)
+Prelude> (1,"hello",[1,2])
+Prelude> let tuple = (1 , (+) , 2)
+		 \end{lstlisting}
+		\end{block}
+		
+		\end{frame}
+	
+	\subsection{Listas}
+	
+	\begin{frame}[fragile]{Listas}	 
+		\begin{block}{Operações}	  
+			\begin{lstlisting}
+Prelude> let duplica x = x*x
+Prelude> map duplica [1,3..11]
+Prelude> map duplica [1,3..] !! 7
+Prelude> foldr (+) 0 [1,3,5,7]
+Prelude> foldr (-) 0 [1,3,5,7]
+Prelude> foldl (-) 0 [1,3,5,7]
+Prelude> foldr (-) 2 [1,3,5,7]
+Prelude> foldl (-) 2 [1,3,5,7]
+Prelude> filter (>3) [1,3,5,7]
+			\end{lstlisting}
+		\end{block}	 
+	\end{frame}
+	
+	\begin{frame}[fragile]{Folding}
+	 \begin{block}{foldr}
+	  Associativo a direita
+	  \begin{lstlisting}
+Prelude> foldr (-) 0 [1,2,3,4]
+Prelude> 1 - (2 - (3 - (4 - 0)))
+	  \end{lstlisting}
+	 \end{block}
+	 
+	 \begin{block}{foldl}
+	  Associativo a esquerda
+	  \begin{lstlisting}
+Prelude> foldl (-) 0 [1,2,3,4]
+Prelude> (((0 - 1) - 2) - 3) - 4
+	  \end{lstlisting}
+	 \end{block}
+	\end{frame}	
+	
+	\subsection{Determinando Tipos}
+		\begin{frame}[fragile]{Determinando Tipos}
+		 \begin{block}{Exemplo}
+		 \begin{lstlisting}
+Prelude> :t 5
+ Num a => a
+Prelude> :t "Hello"
+ "Hello" :: [Char]
+Prelude> :t (1,'a')
+ Num t => (t, Char)
+Prelude> :t (\x y -> x+y)
+ Num a => a -> a -> a
+		 \end{lstlisting}
+		 \end{block}
+		\end{frame}
+		
+	\subsection{Definindo Tipos}
+	
+		\begin{frame}[fragile]{Data}
+		 
+		 \begin{itemize}
+		  \item Definição de estruturas
+		  \item Muito útil com pattern matching
+		 \end{itemize}
+		 
+		 \begin{block}{Definindo}
+		  \begin{lstlisting}
+Prelude> data Tree a = Leaf 
+         | Node (Tree a) a (Tree a)
+		  \end{lstlisting}
+		 \end{block}		 
+		 \begin{block}{Construindo}
+		  \begin{lstlisting}
+Prelude> let n2 = Node Leaf 10 Leaf
+Prelude> let n1 = Node Leaf 6 Leaf
+Prelude> let n0 = Node n1 7 n2
+		  \end{lstlisting}
+		 \end{block}
+		\end{frame}
+		
+	\section{Cálculo Lambda}
+
+		\begin{frame}{Funções Lambda}
+		 
+		 \begin{itemize}
+		  \item Funções sem nome
+		  \item São avaliadas através de substituição de símbolos
+		  \item Usa-se redução $\beta$ e $\alpha$ para fazer a avaliação
+		 \end{itemize}
+		 
+		 \begin{block}{Exemplo}
+		  \[(\lambda x. \lambda y. x+y)~ 5~ 4\]
+		  \[(\lambda y. 5+y)~ 4\]
+		  \[5+4\]		  
+		 \end{block}		 
+		\end{frame}
+		
+	\begin{frame}[fragile]{Funções Lambda}
+	 
+	 \begin{block}{Em Haskell}
+	  \begin{lstlisting}	
+Prelude> (\x -> x*x) 5
+Prelude> (\x y ->x+y) 4 5
+	  \end{lstlisting}	  
+	 \end{block}
+	\end{frame}
+
+	\begin{frame}[fragile]{Currying}
+		\begin{itemize}
+			\item Avaliação parcial de funções
+			\item Consequência direta do cálculo lambda
+		\end{itemize}
+		\begin{block}{Exemplo}
+		 \begin{lstlisting}
+Prelude> let a = (\x y -> x+y)
+Prelude> let b = a 5
+		 \end{lstlisting}
+		\end{block}
+	\end{frame}	
+	
+	\section{IO}
+	
+		\subsection{Output}
+		\begin{frame}[fragile]{Funções de Saída}
+		 \begin{itemize}
+		  \item Não são funções de fato
+		  \item Permitem efeitos colaterais
+		  \item São consideradas ``IO Actions''
+		  \item Devem ser executadas no ambiente \textit{do} (ambiente padrão do \textit{ghci})
+		 \end{itemize}
+		 
+		 \begin{block}{Definição}
+		  \begin{lstlisting}
+print :: Show a => a -> IO ()
+putStr :: String -> IO ()
+putStrLn :: String -> IO ()
+		  \end{lstlisting}
+		 \end{block}
+		\end{frame}
+		
+		\begin{frame}[fragile]{Funções de Saída}
+		 \begin{block}{printing}
+		  \begin{lstlisting}
+Prelude> putStrLn "Nova linha"
+Prelude> putStr "Mesma linha"
+Prelude> print 42
+		  \end{lstlisting}
+		 \end{block}
+		\end{frame}
+		
+		\subsection{Input}
+		\begin{frame}[fragile]{Funções de Entrada}
+
+		 \begin{block}{Definição}
+		  \begin{lstlisting}
+readFile :: FilePath -> IO String
+getLine :: IO String
+		  \end{lstlisting}
+		 \end{block}
+		 
+		 \begin{block}{}
+		  \begin{lstlisting}
+Prelude> file <- readFile "arquivo"
+Prelude> line <- getLine
+		  \end{lstlisting}
+		 \end{block}		 
+		\end{frame}
+
+		\subsection{Conversões}
+
+			\begin{frame}[fragile]{Funções}
+			 \begin{block}{}
+			  \begin{lstlisting}
+Prelude> show 32
+Prelude> read "32"::Int
+Prelude> read "32"::Float
+			  \end{lstlisting}
+			 \end{block}			 
+			\end{frame}
+
+	\section{Arquivos}
+	
+		\begin{frame}[fragile]{Arquivos}
+		 \begin{itemize}
+		  \item Código pode ser dividido em diversos arquivos
+		  \item Permite a criação de módulos para facilitar reúso
+		  \item Usa-se a extensão .hs
+		 \end{itemize}
+		 
+		 \begin{block}{Exemplo}
+		  \begin{lstlisting}
+Module Main where
+
+main = do
+     putStrLn "Hello World"
+		  \end{lstlisting}
+		 \end{block}
+		\end{frame}
+		
+		\begin{frame}[fragile]{Definição de Funções}
+		 \begin{block}{Formato}
+		  \begin{lstlisting}
+<identificador> [variáveis...] = <expressão>
+		  \end{lstlisting}
+		 \end{block}
+		 
+		 \begin{block}{Exemplo}
+		  \begin{lstlisting}
+fatorial 0 = 1
+fatorial 1 = 1
+fatorial n = n * fatorial (n-1)
+		  \end{lstlisting}
+		 \end{block}
+		\end{frame}
+			
+\section{Referências}
+\begin{frame}{Referências}
+	\begin{thebibliography}{9}
+	\bibitem{YAHT} Hal Daumé III, \textit{Yet Another Haskell Tutorial}
+	\end{thebibliography}
+\end{frame}
+	
+	
+\end{document}

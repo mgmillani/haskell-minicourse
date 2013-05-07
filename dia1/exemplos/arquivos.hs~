@@ -1,0 +1,14 @@
+module Main
+	where
+
+fibo 0 = 1
+fibo 1 = 1
+fibo n = fibo (n-1) + fibo (n-2)
+
+fiboFast n = fiboFast' 0 1 n
+fiboFast' p pp 1 = p + pp
+fiboFast' p pp n = fiboFast' pp (p + pp) (n-1)
+	
+main = do
+	(print . fibo) 30
+	(print . fiboFast) 30
