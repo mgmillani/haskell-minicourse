@@ -42,7 +42,7 @@
 	literate={ê}{{\^e}}1 {ç}{{\c{c}}}1 {ã}{{\~a}}1 {â}{{\^a}}1 {õ}{{\~o}}1 {í}{{\'i}}1 {é}{{\'e}}1 {á}{{\'a}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
 }
 
-\title{Curso de \LaTeX - SEMAC 2012/2}
+\title{Mini-Curso de Haskell - SEMAC 2013/1}
 \author[M. Millani]{Marcelo Garlet Millani}
 \institute[II/UFRGS]{Universidade Federal do Rio Grande do Sul \\ Instituto de Informática \\ Grupo PET Computação}
 
@@ -53,7 +53,7 @@
 	\end{frame}
 
 \section{Sobre a Linguagem}
-	\begin{frame}{O Que É}
+	\begin{frame}{O que é Haskell}
 		\begin{itemize}
 		 \item Linguagem puramente funcional (não permite efeitos colaterais)
 		 \item Possui um sistema de mônadas para isolar partes impuras do código
@@ -99,7 +99,7 @@
 			\end{itemize}
 	  \item [NHC] Apenas um compilador. Arquivos produzidos geralmente melhores que o do GHC.
 			\begin{itemize}
-			 \item 
+			 \item \url{http://www.haskell.org/nhc98}
 			\end{itemize}
 	 \end{description}	 
 	\end{frame}
@@ -121,6 +121,19 @@
 	 	 \end{block}
 	\end{frame}
 	
+	\begin{frame}[fragile]{Controle de Fluxo}
+		\begin{itemize}
+		 \item Geralmente usaremos recursão em vez de laços
+		 \item Possui construções do tipo if-then-else
+		\end{itemize}
+		
+		\begin{block}{Exemplo}
+		 \begin{lstlisting}
+Prelude> if 2>1 then 3 else 9
+		 \end{lstlisting}
+		\end{block}
+	\end{frame}
+	
 	\section{Operações}
 	\begin{frame}{Operadores}
 	 \begin{table}[h]
@@ -131,18 +144,18 @@
 			+ & soma \\
 			- & subtração \\
 			* & multiplicação\\
-			/ & divisão (float)\\
+			\textasciicircum & potenciação\\
+			/ & divisão (real)\\
 			. & composição \\
 			\$ & aplicação \\
 			++ & concatenação de listas\\
 			: & inserção em uma lista\\
-			!! & acesso a uma posição da lista\\
-			\textasciicircum & potenciação\\
+			!! & acesso a uma posição da lista\\			
 	  \end{tabular}
 	 \end{table}	 
 	\end{frame}
 	
-	\begin{frame}{Operadores Lógicos}
+	\begin{frame}{Operadores Booleanos}
 	 
 	 \begin{table}[h]
 	  \begin{tabular}{c | c}
@@ -168,17 +181,45 @@
 	 \end{table} 
 	\end{frame}
 	
-	\section{Pattern Matching}
-	
-		\begin{frame}[fragile]{Pattern Matching}	 
+	\section{Cálculo Lambda}
+
+		\begin{frame}{Funções Lambda}
+		 
+		 \begin{itemize}
+		  \item Funções sem nome
+		  \item São avaliadas através de substituição de símbolos
+		  \item Usa-se redução $\beta$ e $\alpha$ para fazer a avaliação
+		 \end{itemize}
+		 
 		 \begin{block}{Exemplo}
-		  \begin{lstlisting}
-Prelude> let a = (\(x,y) -> x+y)
-Prelude> let b = (\(x:y:_) -> x*y)
-Prelude> let (p,k) = (\x y -> (x,y)) 3 4
-		  \end{lstlisting}
-		 \end{block}
+		  \[(\lambda x. \lambda y. x+y)~ 5~ 4\]
+		  \[(\lambda y. 5+y)~ 4\]
+		  \[5+4\]		  
+		 \end{block}		 
 		\end{frame}
+		
+	\begin{frame}[fragile]{Funções Lambda}
+	 
+	 \begin{block}{Em Haskell}
+	  \begin{lstlisting}	
+Prelude> (\x -> x*x) 5
+Prelude> (\x y ->x+y) 4 5
+	  \end{lstlisting}	  
+	 \end{block}
+	\end{frame}
+
+	\begin{frame}[fragile]{Currying}
+		\begin{itemize}
+			\item Avaliação parcial de funções
+			\item Consequência direta do cálculo lambda
+		\end{itemize}
+		\begin{block}{Exemplo}
+		 \begin{lstlisting}
+Prelude> let a = (\x y -> x+y)
+Prelude> let b = a 5
+		 \end{lstlisting}
+		\end{block}
+	\end{frame}	
 	
 	\section{Tipos de Dados}
 	
@@ -237,12 +278,16 @@ Prelude> foldl (-) 0 [1,2,3,4]
 Prelude> (((0 - 1) - 2) - 3) - 4
 	  \end{lstlisting}
 	 \end{block}
-	\end{frame}	
+	\end{frame}
 	
 	\begin{frame}{Exercício}
 	 \begin{block}{Exercício}
-	  Usandp 
+	  Usando fold e map, faça uma função para calcular a média aritmética e outra para o desvio padrão de uma lista de números. 
 	 \end{block}
+	 
+	  \[ \overline{x} = \frac{\sum\limits_{i \in S}i}{\left|S\right|} \]
+	  \[ \sigma^2 = \frac{\sum\limits_{i \in S}(i - \overline{x})^2}{\left|S\right|} \]	 
+
 	\end{frame}
 	
 	\subsection{Determinando Tipos}
@@ -285,58 +330,31 @@ Prelude> let n0 = Node n1 7 n2
 		 \end{block}
 		\end{frame}
 		
-	\section{Cálculo Lambda}
-
-		\begin{frame}{Funções Lambda}
-		 
-		 \begin{itemize}
-		  \item Funções sem nome
-		  \item São avaliadas através de substituição de símbolos
-		  \item Usa-se redução $\beta$ e $\alpha$ para fazer a avaliação
-		 \end{itemize}
-		 
+		\subsection{Pattern Matching}
+	
+		\begin{frame}[fragile]{Pattern Matching}	 
 		 \begin{block}{Exemplo}
-		  \[(\lambda x. \lambda y. x+y)~ 5~ 4\]
-		  \[(\lambda y. 5+y)~ 4\]
-		  \[5+4\]		  
-		 \end{block}		 
+		  \begin{lstlisting}
+Prelude> let a = (\(x,y) -> x+y)
+Prelude> let b = (\(x:y:_) -> x*y)
+Prelude> let (p,k) = (\x y -> (x,y)) 3 4
+Prelude> let Node esq valor dir = n0
+		  \end{lstlisting}
+		 \end{block}
 		\end{frame}
-		
-	\begin{frame}[fragile]{Funções Lambda}
-	 
-	 \begin{block}{Em Haskell}
-	  \begin{lstlisting}	
-Prelude> (\x -> x*x) 5
-Prelude> (\x y ->x+y) 4 5
-	  \end{lstlisting}	  
-	 \end{block}
-	\end{frame}
-
-	\begin{frame}[fragile]{Currying}
-		\begin{itemize}
-			\item Avaliação parcial de funções
-			\item Consequência direta do cálculo lambda
-		\end{itemize}
-		\begin{block}{Exemplo}
-		 \begin{lstlisting}
-Prelude> let a = (\x y -> x+y)
-Prelude> let b = a 5
-		 \end{lstlisting}
-		\end{block}
-	\end{frame}	
 	
 	\section{IO}
 	
-		%\subsection{Output}
 		\begin{frame}[fragile]{Funções de Saída}
 		 \begin{itemize}
 		  \item Não são funções de fato
 		  \item Permitem efeitos colaterais
 		  \item São consideradas ``IO Actions''
-		  \item Devem ser executadas no ambiente \textit{do} (ambiente padrão do \textit{ghci})
+		  \item Sempre retornam valores de um tipo IO
+		  \item Usa-se o comando \textit{do} para executar uma sequência de ações
 		 \end{itemize}
 		 
-		 \begin{block}{Definição}
+		 \begin{block}{Print}
 		  \begin{lstlisting}
 print :: Show a => a -> IO ()
 putStr :: String -> IO ()
@@ -355,7 +373,6 @@ Prelude> print 42
 		 \end{block}
 		\end{frame}
 		
-		%\subsection{Input}
 		\begin{frame}[fragile]{Funções de Entrada}
 
 		 \begin{block}{Definição}
@@ -375,14 +392,44 @@ Prelude> line <- getLine
 
 		\subsection{Conversões}
 
-			\begin{frame}[fragile]{Funções}
-			 \begin{block}{}
+			\begin{frame}[fragile]{String}
+			 \begin{block}{Funções}
 			  \begin{lstlisting}
 Prelude> show 32
 Prelude> read "32"::Int
 Prelude> read "32"::Float
 			  \end{lstlisting}
-			 \end{block}			 
+			 \end{block}
+			\end{frame}
+			
+			\begin{frame}[fragile]{Números}
+			 \begin{block}{Funções}
+				\begin{lstlisting}
+Prelude> :t fromIntegral
+fromIntegral :: (Integral a, Num b) => a -> b
+Prelude> :t toRational
+Real a => a -> Rational
+				\end{lstlisting}
+			 \end{block}				
+			\end{frame}
+			
+			\begin{frame}[fragile]{Aproximações}
+			 \begin{block}{Funções}
+			  \begin{lstlisting}
+Prelude> :t ceiling
+ceiling :: (Integral b, RealFrac a) => a -> b
+Prelude> ceiling (-3.2)
+Prelude> floor (-3.2)
+Prelude> truncate (-3.2)
+Prelude> round (-3.2)
+			  \end{lstlisting}
+			 \end{block}
+			\end{frame}
+			
+			\begin{frame}{Aproximações}
+			 \[ a \leq ceiling~ a\]
+			 \[ floor~ a \leq a\]
+			 \[ \left|truncate~ a\right| \leq \left|a\right|\]
 			\end{frame}
 
 	\section{Arquivos}
@@ -418,6 +465,37 @@ fatorial 1 = 1
 fatorial n = n * fatorial (n-1)
 		  \end{lstlisting}
 		 \end{block}
+		\end{frame}
+		
+		\begin{frame}[fragile]{Let e Where}
+		 \begin{itemize}
+		  \item Permite a definição de variáveis auxiliares
+		  \item Restringem o escopo
+		  \item Múltiplas definições devem estar alinhadas
+		 \end{itemize}
+		 \begin{block}{Let-in}
+		  \begin{lstlisting}
+variance l =
+ let avg = average l
+     dif = map (\x -> (x - avg)^2) l
+ in average dif
+		  \end{lstlisting}	  
+		 \end{block}
+		\end{frame}
+		
+		\begin{frame}[fragile]{Where}
+		 \begin{block}{Where}
+		  \begin{lstlisting}
+variance l =
+ average dif
+ where avg = average l
+       dif = map (\x -> (x - avg)^2) l
+		  \end{lstlisting}
+		 \end{block}		 
+		\end{frame}
+		
+		\begin{frame}{Exercício}
+		 
 		\end{frame}
 		
 		\subsection{Módulos}
@@ -466,6 +544,7 @@ fatorial n = n * fatorial (n-1)
 \begin{frame}{Referências}
 	\begin{thebibliography}{9}
 	\bibitem{YAHT} Hal Daumé III, \textit{Yet Another Haskell Tutorial}
+	\bibitem{THSE} Hudak, Paul. \textit{The Haskell School of Expression}
 	\end{thebibliography}
 \end{frame}
 	
