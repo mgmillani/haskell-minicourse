@@ -2,6 +2,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[brazilian]{babel}
+\usepackage{hyperref}
 \usepackage{listingsutf8}
 \usepackage{color}
 \usepackage{theoremref}
@@ -53,6 +54,11 @@
 	\end{frame}
 
 \section{Sobre a Linguagem}
+
+	\begin{frame}{}
+		\tableofcontents[currentsection,currentsubsection]
+	\end{frame}
+
 	\begin{frame}{O que é Haskell}
 		\begin{itemize}
 		 \item Linguagem puramente funcional (não permite efeitos colaterais)
@@ -84,6 +90,10 @@
 	
 \section{Ferramentas}
 
+	\begin{frame}{}
+		\tableofcontents[currentsection,currentsubsection]
+	\end{frame}
+
 	\begin{frame}{Interpretadores e Compiladores}
 	 
 	 \begin{description}
@@ -106,7 +116,11 @@
 	
 \section{Interpretador ghci}
 
-	\begin{frame}{Base}
+		\begin{frame}{}
+		 \tableofcontents[currentsection,currentsubsection]
+		\end{frame}
+
+	\begin{frame}[fragile]{Base}
 	 	 \begin{itemize}
 	 	  \item Declarações começam com \textit{let}
 	 	 \end{itemize}
@@ -114,10 +128,10 @@
 	 	  let <identificador> {[}variáveis\dots{]} = <expressão>
 	 	 \end{block}
 	 	 \begin{block}{Exemplos}
-	 	  \begin{itemize}
-	 	   \item let a = 12
-	 	   \item let soma x y = x+y
-	 	  \end{itemize}
+	 	  \begin{lstlisting}
+Prelude> let a = 12
+Prelude> let soma x y = x+y
+	 	  \end{lstlisting}
 	 	 \end{block}
 	\end{frame}
 	
@@ -135,10 +149,16 @@ Prelude> if 2>1 then 3 else 9
 	\end{frame}
 	
 	\section{Operações}
+	
+	\begin{frame}{}
+		 \tableofcontents[currentsection,currentsubsection]
+	\end{frame}
+	
 	\begin{frame}{Operadores}
 	 \begin{table}[h]
 	  \centering
 	  \begin{tabular}{c | c}
+			\hline
 			operador & operação\\
 			\hline
 			+ & soma \\
@@ -151,24 +171,52 @@ Prelude> if 2>1 then 3 else 9
 			++ & concatenação de listas\\
 			: & inserção em uma lista\\
 			!! & acesso a uma posição da lista\\			
+			\hline
 	  \end{tabular}
 	 \end{table}	 
+	\end{frame}
+	
+	\begin{frame}[fragile]{Operações Inteiras}
+	
+	\begin{table}[h]
+		\begin{tabular}{c | c}
+			\hline
+			função & operação\\
+			\hline
+			quot & divisão (truncada) \\
+			div & divisão (floor) \\
+			rem & resto \\
+			mod & resto \\
+			\hline
+		\end{tabular}
+	\end{table}
+	
+	\begin{block}{Propriedades}
+		\begin{lstlisting}
+Prelude> (quot x y)*y + (rem x y) == x  
+Prelude> (div x y)*y + (mod x y) == x
+		\end{lstlisting}
+	 \end{block}
+
 	\end{frame}
 	
 	\begin{frame}{Operadores Booleanos}
 	 
 	 \begin{table}[h]
 	  \begin{tabular}{c | c}
+	  \hline
 	   operador & operação\\
 	   \hline
 	   \&\& & $\land$ \\
 	   || & $\lor$ \\
 	   not & $\lnot$ \\
+	   \hline
 	  \end{tabular}
 	 \end{table}
 	 
 	 \begin{table}[h]
 	  \begin{tabular}{c | c}
+	  \hline
 	   operador & operação\\
 	   \hline
 	   == & igual \\
@@ -182,6 +230,10 @@ Prelude> if 2>1 then 3 else 9
 	\end{frame}
 	
 	\section{Cálculo Lambda}
+	
+		\begin{frame}{}
+		 \tableofcontents[currentsection,currentsubsection]
+		\end{frame}
 
 		\begin{frame}{Funções Lambda}
 		 
@@ -223,6 +275,10 @@ Prelude> let b = a 5
 	
 	\section{Tipos de Dados}
 	
+	\begin{frame}{}
+		\tableofcontents[currentsection,currentsubsection]
+	\end{frame}
+	
 		\begin{frame}[fragile]{Declaração}
 			\begin{block}{Listas}
 		\begin{lstlisting}
@@ -246,17 +302,11 @@ Prelude> let tuple = (1 , (+) , 2)
 	
 	\subsection{Listas}
 	
-	\begin{frame}[fragile]{Listas}	 
-		\begin{block}{Operações}	  
+	\begin{frame}[fragile]{Listas}
+		\begin{block}{Map}
 			\begin{lstlisting}
-Prelude> let duplica x = x*x
-Prelude> map duplica [1,3..11]
-Prelude> map duplica [1,3..] !! 7
-Prelude> foldr (+) 0 [1,3,5,7]
-Prelude> foldr (-) 0 [1,3,5,7]
-Prelude> foldl (-) 0 [1,3,5,7]
-Prelude> foldr (-) 2 [1,3,5,7]
-Prelude> foldl (-) 2 [1,3,5,7]
+Prelude> map (*2) [1,3..11]
+Prelude> map (\x -> x*x) [1,3..] !! 12
 Prelude> filter (>3) [1,3,5,7]
 			\end{lstlisting}
 		\end{block}	 
@@ -266,6 +316,8 @@ Prelude> filter (>3) [1,3,5,7]
 	 \begin{block}{foldr}
 	  Associativo a direita
 	  \begin{lstlisting}
+Prelude> :t foldr
+ foldr :: (a -> b -> b) -> b -> [a] -> b
 Prelude> foldr (-) 0 [1,2,3,4]
 Prelude> 1 - (2 - (3 - (4 - 0)))
 	  \end{lstlisting}
@@ -274,6 +326,8 @@ Prelude> 1 - (2 - (3 - (4 - 0)))
 	 \begin{block}{foldl}
 	  Associativo a esquerda
 	  \begin{lstlisting}
+Prelude> :t foldl
+ foldl :: (a -> b -> a) -> a -> [b] -> a
 Prelude> foldl (-) 0 [1,2,3,4]
 Prelude> (((0 - 1) - 2) - 3) - 4
 	  \end{lstlisting}
@@ -305,8 +359,6 @@ Prelude> :t (\x y -> x+y)
 		 \end{lstlisting}
 		 \end{block}
 		\end{frame}
-		
-	\subsection{Definindo Tipos}
 	
 		\begin{frame}[fragile]{Data}
 		 
@@ -330,6 +382,48 @@ Prelude> let n0 = Node n1 7 n2
 		 \end{block}
 		\end{frame}
 		
+		\subsection{Conversões}
+
+			\begin{frame}[fragile]{Conversões de String}
+			 \begin{block}{Funções}
+			  \begin{lstlisting}
+Prelude> show 32
+Prelude> read "32"::Int
+Prelude> read "32"::Float
+			  \end{lstlisting}
+			 \end{block}
+			\end{frame}
+			
+			\begin{frame}[fragile]{Conversões de Números}
+			 \begin{block}{Funções}
+				\begin{lstlisting}
+Prelude> :t fromIntegral
+fromIntegral :: (Integral a, Num b) => a -> b
+Prelude> :t toRational
+Real a => a -> Rational
+				\end{lstlisting}
+			 \end{block}				
+			\end{frame}
+			
+			\begin{frame}[fragile]{Aproximações}
+			 \begin{block}{Funções}
+			  \begin{lstlisting}
+Prelude> :t ceiling
+ceiling :: (Integral b, RealFrac a) => a -> b
+Prelude> ceiling (-3.2)
+Prelude> floor (-3.2)
+Prelude> truncate (-3.2)
+Prelude> round (-3.2)
+			  \end{lstlisting}
+			 \end{block}
+			\end{frame}
+			
+			\begin{frame}{Aproximações}
+			 \[ a \leq ceiling~ a\]
+			 \[ floor~ a \leq a\]
+			 \[ \left|truncate~ a\right| \leq \left|a\right|\]
+			\end{frame}
+		
 		\subsection{Pattern Matching}
 	
 		\begin{frame}[fragile]{Pattern Matching}	 
@@ -344,6 +438,10 @@ Prelude> let Node esq valor dir = n0
 		\end{frame}
 	
 	\section{IO}
+	
+	\begin{frame}{}
+		\tableofcontents[currentsection,currentsubsection]
+	\end{frame}
 	
 		\begin{frame}[fragile]{Funções de Saída}
 		 \begin{itemize}
@@ -390,49 +488,11 @@ Prelude> line <- getLine
 		 \end{block}		 
 		\end{frame}
 
-		\subsection{Conversões}
-
-			\begin{frame}[fragile]{String}
-			 \begin{block}{Funções}
-			  \begin{lstlisting}
-Prelude> show 32
-Prelude> read "32"::Int
-Prelude> read "32"::Float
-			  \end{lstlisting}
-			 \end{block}
-			\end{frame}
-			
-			\begin{frame}[fragile]{Números}
-			 \begin{block}{Funções}
-				\begin{lstlisting}
-Prelude> :t fromIntegral
-fromIntegral :: (Integral a, Num b) => a -> b
-Prelude> :t toRational
-Real a => a -> Rational
-				\end{lstlisting}
-			 \end{block}				
-			\end{frame}
-			
-			\begin{frame}[fragile]{Aproximações}
-			 \begin{block}{Funções}
-			  \begin{lstlisting}
-Prelude> :t ceiling
-ceiling :: (Integral b, RealFrac a) => a -> b
-Prelude> ceiling (-3.2)
-Prelude> floor (-3.2)
-Prelude> truncate (-3.2)
-Prelude> round (-3.2)
-			  \end{lstlisting}
-			 \end{block}
-			\end{frame}
-			
-			\begin{frame}{Aproximações}
-			 \[ a \leq ceiling~ a\]
-			 \[ floor~ a \leq a\]
-			 \[ \left|truncate~ a\right| \leq \left|a\right|\]
-			\end{frame}
-
 	\section{Arquivos}
+	
+	\begin{frame}{}
+		\tableofcontents[currentsection,currentsubsection]
+	\end{frame}
 	
 		\begin{frame}[fragile]{Arquivos}
 		 \begin{itemize}
