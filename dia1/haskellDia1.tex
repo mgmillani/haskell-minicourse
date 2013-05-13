@@ -382,6 +382,23 @@ Prelude> let n0 = Node n1 7 n2
 		 \end{block}
 		\end{frame}
 		
+		\subsection{Pattern Matching}
+		
+		\begin{itemize}
+		 \item Comportamento com base na estrutura dos dados
+		\end{itemize}
+	
+		\begin{frame}[fragile]{Pattern Matching}	 
+		 \begin{block}{Exemplo}
+		  \begin{lstlisting}
+Prelude> let a = (\(x,y) -> x+y)
+Prelude> let b = (\(x:y:_) -> x*y)
+Prelude> let (p,k) = (\x y -> (x,y)) 3 4
+Prelude> let Node esq valor dir = n0
+		  \end{lstlisting}
+		 \end{block}
+		\end{frame}
+		
 		\subsection{Conversões}
 
 			\begin{frame}[fragile]{Conversões de String}
@@ -422,20 +439,7 @@ Prelude> round (-3.2)
 			 \[ a \leq ceiling~ a\]
 			 \[ floor~ a \leq a\]
 			 \[ \left|truncate~ a\right| \leq \left|a\right|\]
-			\end{frame}
-		
-		\subsection{Pattern Matching}
-	
-		\begin{frame}[fragile]{Pattern Matching}	 
-		 \begin{block}{Exemplo}
-		  \begin{lstlisting}
-Prelude> let a = (\(x,y) -> x+y)
-Prelude> let b = (\(x:y:_) -> x*y)
-Prelude> let (p,k) = (\x y -> (x,y)) 3 4
-Prelude> let Node esq valor dir = n0
-		  \end{lstlisting}
-		 \end{block}
-		\end{frame}
+			\end{frame}		
 	
 	\section{IO}
 	
@@ -555,7 +559,14 @@ variance l =
 		\end{frame}
 		
 		\begin{frame}{Exercício}
-		 
+		 \begin{block}{Exercício}
+		  Faça um programa para produzir uma lista de vértices a partir de uma forma geométrica básica e um ponto (círculo e retângulo).
+		 \end{block}
+		 \begin{description}
+		  \item [Círculo] Raio
+		  \item [Retângulo] Altura e largura
+		 \end{description}
+
 		\end{frame}
 		
 		\subsection{Módulos}
