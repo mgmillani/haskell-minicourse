@@ -62,9 +62,16 @@
 	\begin{frame}{O que é Haskell}
 		\begin{itemize}
 		 \item Linguagem puramente funcional (não permite efeitos colaterais)
+		 \begin{itemize}
+		 \item ``Insanidade é continuar fazendo sempre a mesma coisa e esperar resultados diferentes''
+		 
+		 - Albert Einstein
+		\end{itemize}
+		
 		 \item Possui um sistema de mônadas para isolar partes impuras do código
 		 \item Usa avaliação preguiçosa (só calcula uma expressão se ela for necessária)
 		\end{itemize}
+		
 	\end{frame}
 	
 	\begin{frame}{História}
@@ -515,6 +522,50 @@ main = do
 		 \end{block}
 		\end{frame}
 		
+		
+		\begin{frame}[fragile]{Usando o GHC}
+		 
+		 \begin{block}{Compilação de arquivos específicos}		  
+		 \begin{lstlisting}[language=Bash]
+$ ghc arquivoA.hs arquivoB.hs
+		 \end{lstlisting}
+		 \end{block}
+		 
+		 \begin{block}{Compilação da main}
+		  Nesse caso, o compilador busca as dependências (nome do arquivo deve ser o mesmo do módulo):
+		  \begin{lstlisting}[language=Bash]
+$ ghc --make arquivo.hs
+			\end{lstlisting}
+		 \end{block}
+		 
+		\end{frame}
+		 
+		 
+		 \begin{frame}[fragile]{Algumas Opções do GHC}
+		 
+		 \begin{block}{Opções úteis}
+		  \begin{itemize}
+		   \item \verb+-o <ARQUIVO>+
+				\begin{itemize}
+				 \item Escolhe o arquivo de saída.
+				\end{itemize}
+		   \item \verb+-i<DIR1>[:<DIR2>...]+		   
+				\begin{itemize}
+				 \item Diretórios usados para buscar arquivos
+				\end{itemize}
+		   \item \verb+-odir <DIR>+
+				\begin{itemize}
+				 \item Diretório onde os arquivos objeto (.o) serão colocados
+				\end{itemize}
+			\item \verb+-hidir <DIR>+
+				\begin{itemize}
+				 \item Diretório onde os arquivos interface (.hi) serão colocados
+				\end{itemize}
+		  \end{itemize}
+		 \end{block}
+		 
+		\end{frame}		
+		
 		\begin{frame}[fragile]{Definição de Funções}
 		 \begin{block}{Formato}
 		  \begin{lstlisting}
@@ -560,12 +611,17 @@ variance l =
 		
 		\begin{frame}{Exercício}
 		 \begin{block}{Exercício}
-		  Faça um programa para produzir uma lista de vértices a partir de uma forma geométrica básica e um ponto (círculo e retângulo).
+		  Faça um programa para produzir uma lista de vértices a partir de uma forma geométrica básica e um ponto (para círculos e retângulos).
 		 \end{block}
 		 \begin{description}
 		  \item [Círculo] Raio
 		  \item [Retângulo] Altura e largura
 		 \end{description}
+		 Para discretizar um círculo:
+		 \[
+		  P_i = ( r \cdot sin(\frac{2 \pi}{i}) , r \cdot cos(\frac{2 \pi}{i} ) ) , \forall i \in [1,n]
+		 \]
+
 
 		\end{frame}
 		
@@ -610,6 +666,13 @@ variance l =
 			  \lstinputlisting{exemplos/src/arvore.hs}
 			 \end{block}
 			\end{frame}
+			
+			\begin{frame}{Exercício}
+			 \begin{block}{Exercício}
+			  Transforme o último exercício em um módulo e use-o em outro arquivo.
+			 \end{block}
+			\end{frame}
+
 			
 \section{Referências}
 \begin{frame}{Referências}
