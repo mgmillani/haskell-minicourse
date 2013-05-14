@@ -1,0 +1,10 @@
+module Main where
+
+import Figures
+
+ca = Circle 5
+cb = Circle 5
+cc = Circle 4
+main = do
+	print $ ca==cb
+	print $ ca==cc

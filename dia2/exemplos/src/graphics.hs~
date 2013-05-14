@@ -1,0 +1,7 @@
+module Main where
+
+-- import Graphics.HGL
+import Data.Graph
+
+main = do
+	print "Hello"

@@ -1,0 +1,138 @@
+\documentclass{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazilian]{babel}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{color}
+\usepackage{theoremref}
+\usepackage{verbatim,amssymb,latexsym,amsmath,mathrsfs}
+
+\usecolortheme{rose}
+\usetheme{Hannover}
+
+\hypersetup
+{
+  colorlinks=true,
+  urlcolor=blue,
+  citecolor=blue,
+  linkcolor=blue
+}
+
+\definecolor{darkGreen}{rgb}{0,0.6,0}
+
+\lstset{
+	extendedchars=true,
+	inputencoding=utf8,
+	basicstyle=\small,
+	keywordstyle=\color{red}\bfseries,
+	identifierstyle=\color{darkGreen},
+	commentstyle=\color{gray}\textit,
+	stringstyle=\color{magenta},
+	showstringspaces=false,
+	tabsize=1,
+	language=Haskell,
+	numbers=left,         % Números na margem da esquerda
+	numberstyle=\tiny,    % Números pequenos
+	stepnumber=1,         % De 1 em 1
+	numbersep=5pt         % Separados por 5pt
+}
+
+\lstset
+{
+	literate={ê}{{\^e}}1 {ç}{{\c{c}}}1 {ã}{{\~a}}1 {â}{{\^a}}1 {õ}{{\~o}}1 {í}{{\'i}}1 {é}{{\'e}}1 {á}{{\'a}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+}
+
+\title{Mini-Curso de Haskell - SEMAC 2013/1}
+\author[M. Millani]{Marcelo Garlet Millani}
+\institute[II/UFRGS]{Universidade Federal do Rio Grande do Sul \\ Instituto de Informática \\ Grupo PET Computação}
+
+\begin{document}
+
+	\begin{frame}
+		\maketitle
+	\end{frame}
+
+	\section{Básico de OpenGl}
+		\begin{frame}{}
+		 \tableofcontents[currentsection,currentsubsection]
+		\end{frame}
+		
+		\begin{frame}[fragile]{OpenGl}
+		 \begin{itemize}
+		  \item OpenGl é uma biblioteca gráfica para C
+		  \item Permite aproveitar a GPU para desenhos
+		  \item Capaz de trabalhar em 3D, mas usaremos apenas 2D
+		  \item GHC já vem com bindings para Haskell
+		  \item Módulo Graphics.Rendering.OpenGL
+				\begin{itemize}
+				 \item Pacote libghc-opengl-dev no linux
+				\end{itemize}
+		  \item Usaremos a GLUT (Graphics.UI.GLUT) para a janela
+				\begin{itemize}
+				 \item Pacote libghc-glut-dev no linux
+				\end{itemize}
+		 \end{itemize}
+
+		\end{frame}
+
+	\section{Qualified Types}
+		\begin{frame}{}
+		 \tableofcontents[currentsection,currentsubsection]
+		\end{frame}
+		
+		\begin{frame}[fragile]{Para que servem}
+			\begin{itemize}
+			  \item Uso de funções polimórficas
+				\item Restringem os tipos para os quais a função está definida
+			\end{itemize}
+			
+			\begin{block}{Exemplo}
+			 Função de soma:
+			 \begin{lstlisting}
+(+) :: Num a=> a->a->a
+			 \end{lstlisting}
+			 Definida para qualquer $a$ tal que $a$ seja um membro de $Num$.
+			\end{block}
+		 
+		\end{frame}
+		
+		\begin{frame}[fragile]{Como usar}
+		 
+		 \begin{itemize}
+		  \item Definimos como as funções da classe serão aplicadas para um certo tipo de dado
+		  \item Em alguns casos, não é necessário definir todas as funções
+		  \begin{itemize}
+		   \item Por exemplo, basta definir igualdade (==) para se ter diferença (/=)
+		  \end{itemize}
+
+		 \end{itemize}
+		 
+		 \begin{block}{Exemplo}
+		  \begin{lstlisting}
+instance Eq a => Eq (Figure a) where
+	Circle r == Circle s           = r == s
+	Rectangle w h == Rectangle a b = w == a && h == b
+		  \end{lstlisting}
+		 \end{block}		 
+		\end{frame}
+		
+		\begin{frame}[fragile]{Definindo Classes}
+		 \begin{itemize}
+		  \item 
+		 \end{itemize}
+
+		\end{frame}
+
+			
+\section{Referências}
+\begin{frame}{Referências}
+	\begin{thebibliography}{9}
+	\bibitem{YAHT} Hal Daumé III, \textit{Yet Another Haskell Tutorial}
+	\bibitem{THSE} Hudak, Paul. \textit{The Haskell School of Expression}
+	\bibitem{HAGL} \url{http://www.haskell.org/haskellwiki/OpenGLTutorial1}
+	\end{thebibliography}
+\end{frame}
+	
+	
+\end{document}

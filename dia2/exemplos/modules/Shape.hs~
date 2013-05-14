@@ -1,0 +1,7 @@
+module Shape where
+
+data Shape = Rectangle Float Float
+           | Ellipse Float Float
+           | RtTriangle Float Float
+           | Polygon [(Float,Float)]
+	deriving Show

@@ -1,0 +1,23 @@
+module Figures where
+
+data Figure a = Circle a | Rectangle a a
+
+precision = 10
+
+circlePoint k r = ( r * (sin $ 2*pi*k/precision), r * (cos $ 2*pi*k/precision))
+
+vertexes (Circle radius) (x,y) =
+	map (\k -> let (a,b) = circlePoint k radius in (a+x,b+y)) [1..precision]
+vertexes (Rectangle w h) (x,y) =
+	map (\(a,b) -> (a+x,b+y)) [(w2,h2) , (-w2,h2) , (-w2,-h2) , (w2,-h2)]
+	where
+		h2 = h/2
+		w2 = w/2
+
+distance (a,b) (c,d) =
+	sqrt $ ((a-c)^2 + (b-d)^2)
+
+instance Eq a => Eq (Figure a) where
+	Circle r == Circle s           = r==s
+	Rectangle w h == Rectangle a b = w==a && h==b
+	
