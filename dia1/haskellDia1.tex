@@ -144,7 +144,7 @@ Prelude> let soma x y = x+y
 	
 	\begin{frame}[fragile]{Controle de Fluxo}
 		\begin{itemize}
-		 \item Geralmente usaremos recursão em vez de laços
+		 \item Usaremos recursão em vez de laços
 		 \item Possui construções do tipo if-then-else
 		\end{itemize}
 		
@@ -232,6 +232,7 @@ Prelude> (div x y)*y + (mod x y) == x
 	   >= & maior ou igual \\
 	   < & menor que \\
 	   <= & menor ou igual \\
+	   \hline
 	  \end{tabular}
 	 \end{table} 
 	\end{frame}
@@ -274,7 +275,7 @@ Prelude> (\x y ->x+y) 4 5
 		\end{itemize}
 		\begin{block}{Exemplo}
 		 \begin{lstlisting}
-Prelude> let a = (\x y -> x+y)
+Prelude> let a = \x y -> x+y
 Prelude> let b = a 5
 		 \end{lstlisting}
 		\end{block}
@@ -298,7 +299,7 @@ Prelude> [1,3..] !! 5
 		
 		\begin{block}{Tuplas}
 		\begin{lstlisting}
-Prelude> ( 1 )
+Prelude> (1)
 Prelude> (1,2,3)
 Prelude> (1,"hello",[1,2])
 Prelude> let tuple = (1 , (+) , 2)
@@ -391,11 +392,11 @@ Prelude> let n0 = Node n1 7 n2
 		
 		\subsection{Pattern Matching}
 		
+		\begin{frame}[fragile]{Pattern Matching}
 		\begin{itemize}
 		 \item Comportamento com base na estrutura dos dados
-		\end{itemize}
-	
-		\begin{frame}[fragile]{Pattern Matching}	 
+		\end{itemize}	
+		
 		 \begin{block}{Exemplo}
 		  \begin{lstlisting}
 Prelude> let a = (\(x,y) -> x+y)
@@ -498,6 +499,20 @@ Prelude> line <- getLine
 		  \end{lstlisting}
 		 \end{block}		 
 		\end{frame}
+		
+		\begin{frame}[fragile]{mapM\_}
+		\begin{itemize}
+		 \item Similar ao map, mas para IO Actions
+		\end{itemize}
+
+		 \begin{block}{Exemplo}
+		  \begin{lstlisting}
+mapM_ (putStr . show) [1,4..10]
+		  \end{lstlisting}
+		 \end{block}
+
+		\end{frame}
+
 
 	\section{Arquivos}
 	
@@ -515,7 +530,10 @@ Prelude> line <- getLine
 		 \begin{block}{Exemplo}
 		  \begin{lstlisting}
 Module Main where
-
+-- Comentario de uma linha
+{-
+	Comentario em bloco
+-}
 main = do
      putStrLn "Hello World"
 		  \end{lstlisting}
@@ -569,7 +587,7 @@ $ ghc --make arquivo.hs
 		\begin{frame}[fragile]{Definição de Funções}
 		 \begin{block}{Formato}
 		  \begin{lstlisting}
-<identificador> [variáveis...] = <expressão>
+<identificador> [argumentos...] = <expressão>
 		  \end{lstlisting}
 		 \end{block}
 		 
@@ -617,9 +635,9 @@ variance l =
 		  \item [Círculo] Raio
 		  \item [Retângulo] Altura e largura
 		 \end{description}
-		 Para discretizar um círculo:
+		 Para discretizar um círculo de raio $r$ centrado em $(0,0)$:
 		 \[
-		  P_i = ( r \cdot sin(\frac{2 \pi}{i}) , r \cdot cos(\frac{2 \pi}{i} ) ) , \forall i \in [1,n]
+		  P_k = ( r \cdot sen(\frac{2 k \pi}{n}) , r \cdot cos(\frac{2 k \pi}{n} ) ) , \forall k \in [1,n]
 		 \]
 
 
