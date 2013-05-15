@@ -66,15 +66,34 @@
 		  \item GHC já vem com bindings para Haskell
 		  \item Módulo Graphics.Rendering.OpenGL
 				\begin{itemize}
-				 \item Pacote libghc-opengl-dev no linux
+				 \item Pacote libghc-opengl-dev no Linux (Debian)
 				\end{itemize}
 		  \item Usaremos a GLUT (Graphics.UI.GLUT) para a janela
 				\begin{itemize}
-				 \item Pacote libghc-glut-dev no linux
+				 \item Pacote libghc-glut-dev no Linux (Debian)
 				\end{itemize}
 		 \end{itemize}
+		\end{frame}
+		
+		\begin{frame}[fragile]{Inicialização}
+		 \begin{block}{Exemplo}
+			\begin{lstlisting}
+main = do 
+  (progname, _) <- getArgsAndInitialize
+  createWindow "Hello World"
+  displayCallback $= display myPoints
+  mainLoop
+  
+display p = do 
+  clear [ColorBuffer]
+  renderPrimitive LineLoop $ do
+    mapM_ (\(x,y,z)->vertex$Vertex3 x y z) p
+  flush
+			\end{lstlisting}
+		 \end{block}
 
 		\end{frame}
+
 
 	\section{Qualified Types}
 		\begin{frame}{}
@@ -118,9 +137,12 @@ instance Eq a => Eq (Figure a) where
 		\end{frame}
 		
 		\begin{frame}[fragile]{Definindo Classes}
-		 \begin{itemize}
-		  \item 
-		 \end{itemize}
+		 
+		 \begin{block}{Exemplo}
+class Drawable a where
+	vertexes :: a -> [(GLfloat,GLfloat,GLfloat)]
+	draw :: a ->
+		 \end{block}
 
 		\end{frame}
 

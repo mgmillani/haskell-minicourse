@@ -1,6 +1,14 @@
 module Figures where
 
+import Graphics.Rendering.OpenGL
+import Graphics.UI.GLUT
+
+import Drawable
+
 data Figure a = Circle a | Rectangle a a
+
+instance Num a => Drawable (Figure a) where
+	vertex = vertexesGL
 
 precision = 10
 
@@ -13,6 +21,9 @@ vertexes (Rectangle w h) (x,y) =
 	where
 		h2 = h/2
 		w2 = w/2
+
+-- vertexesGL :: Figure a -> (GLfloat,GLfloat) -> [(GLfloat,GLfloat)]
+vertexesGL figure (x,y) = vertexes figure (toRational x,toRational y)
 
 distance (a,b) (c,d) =
 	sqrt $ ((a-c)^2 + (b-d)^2)
