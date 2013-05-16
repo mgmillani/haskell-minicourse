@@ -1,6 +1,6 @@
 -- Fonte: http://www.haskell.org/haskellwiki/OpenGLTutorial1
 -- (modificado)
-Module Main where
+module Main where
 
 import Graphics.Rendering.OpenGL
 import Graphics.UI.GLUT
