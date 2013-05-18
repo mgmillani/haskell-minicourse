@@ -40,7 +40,9 @@ parseWord (h:tl) =
 projectColumns columns list = projectColumnsAux columns list 0
 projectColumnsAux _ [] _ = []
 projectColumnsAux columns (h:rest) col =
-	(if any (==col) columns then h else []) : projectColumnsAux columns rest (col+1)
+	if any (==col) columns then h:more else more
+	where
+		more = projectColumnsAux columns rest (col+1)
 
 parseArgs [] = ([],[])
 parseArgs (h:rest) = (h,map read rest)

@@ -36,6 +36,7 @@ parseWord (h:tl) =
 	let (word,rest) = parseWord tl in
 		(h:word,rest)
 
+-- projeta somete as colunas especificadas
 projectColumns columns list = projectColumnsAux columns list 0
 projectColumnsAux _ [] _ = []
 projectColumnsAux columns (h:rest) col =
