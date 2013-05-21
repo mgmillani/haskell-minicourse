@@ -2,11 +2,8 @@ module Main where
 
 import System.Environment
 
-haskell = "cursohaskell.csv"
-latex = "cursolatex.csv"
-
 parse file =
-	let (result, trash) = parseAux file
+	let (result, _) = parseAux file
 	in result
 
 -- pega todas as linhas de um arquivo
@@ -57,4 +54,4 @@ main = do
 	-- separa as colunas desejadas
 	let desired = map (projectColumns columns) lns
 
-	mapM_ putStrLn $ map (foldl (\x y -> x ++ "\t" ++ y) []) desired
+	mapM_ putStrLn $ map (\line -> (foldl (\x y -> x ++ "\t" ++ y) $ head line ) $ tail line) desired

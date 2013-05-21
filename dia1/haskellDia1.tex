@@ -68,7 +68,7 @@
 		 - Albert Einstein
 		\end{itemize}
 		
-		 \item Possui um sistema de mônadas para isolar partes impuras do código
+		 \item Usa o conceito de mônadas para isolar partes impuras do código
 		 \item Usa avaliação preguiçosa (só calcula uma expressão se ela for necessária)
 		\end{itemize}
 		
@@ -120,6 +120,14 @@
 			\end{itemize}
 	 \end{description}	 
 	\end{frame}
+	
+	\begin{frame}{FREE HUGS!}
+	 \begin{figure}
+	  \includegraphics[height=0.8\textheight]{freeHugs.jpg}
+	 \end{figure}
+
+	\end{frame}
+
 	
 \section{Interpretador ghci}
 
@@ -372,7 +380,6 @@ Prelude> :t (\x y -> x+y)
 		 
 		 \begin{itemize}
 		  \item Definição de estruturas
-		  \item Muito útil com pattern matching
 		 \end{itemize}
 		 
 		 \begin{block}{Definindo}
@@ -395,6 +402,7 @@ Prelude> let n0 = Node n1 7 n2
 		\begin{frame}[fragile]{Pattern Matching}
 		\begin{itemize}
 		 \item Comportamento com base na estrutura dos dados
+		 \item Muito útil para tratar data types
 		\end{itemize}	
 		
 		 \begin{block}{Exemplo}
@@ -599,6 +607,22 @@ fatorial n = n * fatorial (n-1)
 		  \end{lstlisting}
 		 \end{block}
 		\end{frame}
+		
+		\begin{frame}[fragile]{Function Guards}
+		 \begin{itemize}
+		  \item Sintaxe alternativa para separação em casos
+		  \item \textit{otherwise} se comporta como um \textit{wildcard}
+		 \end{itemize}
+		 \begin{block}{Exemplo}
+		 \begin{lstlisting}
+fatorial n
+  | n==0 = 1
+  | n==1 = 1
+  | otherwise = n * fatorial (n-1)
+		\end{lstlisting}
+		 \end{block}
+		\end{frame}
+
 		
 		\begin{frame}[fragile]{Let e Where}
 		 \begin{itemize}

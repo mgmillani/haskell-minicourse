@@ -2,9 +2,6 @@ module Main where
 
 import System.Environment
 
-haskell = "cursohaskell.csv"
-latex = "cursolatex.csv"
-
 parse file =
 	let (result, trash) = parseAux file
 	in result
@@ -40,7 +37,9 @@ parseWord (h:tl) =
 projectColumns columns list = projectColumnsAux columns list 0
 projectColumnsAux _ [] _ = []
 projectColumnsAux columns (h:rest) col =
-	(if any (==col) columns then h else []) : projectColumnsAux columns rest (col+1)
+	if any (==col) columns then h:more else more
+	where
+		more = projectColumnsAux columns rest (col+1)
 
 parseArgs [] = ([],[])
 parseArgs (h:rest) = (h,map read rest)
@@ -55,4 +54,4 @@ main = do
 	-- separa as colunas desejadas
 	let desired = map (projectColumns columns) lns
 
-	mapM_ putStrLn $ map (foldl (\x y -> x ++ "\t" ++ y) []) desired
+	mapM_ putStrLn $ map (\line -> (foldl (\x y -> x ++ "\t" ++ y) $ head line ) $ tail line) desired
